@@ -1,3 +1,6 @@
+> [!NOTE]
+> The original database repository can be found at [lerocha/chinook-database](https://github.com/lerocha/chinook-database). These questions are based on an old version of the Chinook database. Therefore, use the [Chinook database provided in this repository](https://github.com/fsaltunyuva/SQLite-Chinook-Queries/blob/main/Chinook_Sqlite.sqlite) to answer the questions below.
+
 # Questions
 
 1. Provide a query showing Customers (just their full names, customer ID and country) who are not in the US. 
