@@ -1,5 +1,5 @@
 -- 1
--- select FirstName, LastName, CustomerId, Country 
+-- select FirstName || " " || LastName as "Full Name", CustomerId, Country 
 -- from Customer
 -- where Country != 'USA'
 
@@ -9,7 +9,7 @@
 -- where Country == 'Brazil'
 
 -- 3
--- select FirstName, LastName, InvoiceId, InvoiceDate, Country
+-- select FirstName || " " || LastName as "Full Name", InvoiceId, InvoiceDate, BillingCountry
 -- from Customer, Invoice
 -- where Customer.CustomerId == Invoice.CustomerId and Country == 'Brazil'
 
@@ -33,15 +33,16 @@
 -- from Invoice, Customer, Employee
 -- where Invoice.CustomerId == Customer.CustomerId and Customer.SupportRepId == Employee.EmployeeId
 
--- 8 ???
+-- 8
 -- select Invoice.Total, Customer.FirstName || " " || Customer.LastName as "Customer Name", Customer.Country, Employee.FirstName || " " || Employee.LastName as "Employee Name"
 -- from Invoice, Customer, Employee
--- --where Invoice.CustomerId == Customer.CustomerId and Customer.SupportRepId == Employee.EmployeeId
+-- where Invoice.CustomerId == Customer.CustomerId and Customer.SupportRepId == Employee.EmployeeId
 
 -- 9 
--- select COUNT(*), SUM(Invoice.Total) as "Total Sales"
+-- select substr(InvoiceDate, 1, 4) as "Year", COUNT(*), SUM(Invoice.Total) as "Total Sales"
 -- from Invoice
--- where InvoiceDate like "2009%" or "2010%" 
+-- where InvoiceDate like "2009%" or InvoiceDate like "2011%" 
+-- group by substr(InvoiceDate, 1, 4)
 
 -- 10
 -- select COUNT(*)
@@ -55,7 +56,7 @@
 -- group by Invoice.InvoiceId
 
 -- 12
--- select Track.Name
+-- select InvoiceLine.*, Track.Name
 -- from InvoiceLine, Track
 -- where Track.TrackId == InvoiceLine.TrackId
 
@@ -76,7 +77,7 @@
 -- select Playlist.Name, Count(*)
 -- from Playlist, PlaylistTrack
 -- where Playlist.PlaylistId == PlaylistTrack.PlaylistId
--- group by PlayList.Name
+-- group by Playlist.PlaylistId
 
 -- 16
 -- select Track.Name as "Track Name", Album.Title as "Album Name", MediaType.Name as "Media Type", Genre.Name as "Genre"
@@ -88,7 +89,7 @@
 
 -- 17
 -- SELECT i.InvoiceID as "Invoice Id", i.CustomerId as "Customer Id", 
--- 			i.InvoiceDate as "InvoiceDate", i.BillingAddress || " " || i.BillingCity || ", " || i.BillingState || " " || i.BillingPostalCode || " " || i.BillingCountry as "Billing Address",
+-- 			i.InvoiceDate as "InvoiceDate", i.BillingAddress || " " || i.BillingCity || ", " || ifnull(i.BillingState, "") || " " || ifnull(i.BillingPostalCode, "") || " " || i.BillingCountry as "Billing Address",
 -- 			COUNT(il.InvoiceLineId) as "Number Of Line Items", i.[Total] as "Total"
 -- FROM Invoice i, InvoiceLine il
 -- WHERE i.InvoiceId == il.InvoiceId
@@ -110,6 +111,7 @@
 -- and Employee.Title == "Sales Support Agent"
 -- and Invoice.InvoiceDate like "2009%"
 -- group by Employee.EmployeeId
+-- order by SUM(Invoice.Total) desc
 -- limit 1
 
 -- 20
@@ -120,6 +122,7 @@
 -- and Employee.Title == "Sales Support Agent"
 -- and Invoice.InvoiceDate like "2010%"
 -- group by Employee.EmployeeId
+-- order by SUM(Invoice.Total) desc
 -- limit 1
 
 -- 21
@@ -129,6 +132,7 @@
 -- and Invoice.CustomerId == Customer.CustomerId
 -- and Employee.Title == "Sales Support Agent"
 -- group by Employee.EmployeeId
+-- order by SUM(Invoice.Total) desc
 -- limit 1
 
 -- 22
@@ -142,7 +146,7 @@
 -- select Invoice.BillingCountry, SUM(Invoice.Total)
 -- from Invoice
 -- group by Invoice.BillingCountry
--- order by Invoice.Total desc
+-- order by SUM(Invoice.Total) desc
 
 -- 24
 -- select Track.Name, COUNT(*)
@@ -150,14 +154,14 @@
 -- where InvoiceLine.TrackId == Track.TrackId
 -- and Invoice.InvoiceId == InvoiceLine.InvoiceId
 -- and Invoice.InvoiceDate like "2013%"
--- group by Track.Name
+-- group by Track.TrackId
 -- order by COUNT(*) desc
 
 -- 25
 -- select Track.Name, COUNT(InvoiceLine.TrackId)
 -- from Track, InvoiceLine
 -- where InvoiceLine.TrackId == Track.TrackId
--- group by Track.Name
+-- group by Track.TrackId
 -- order by COUNT(InvoiceLine.TrackId) DESC
 -- limit 5
 
